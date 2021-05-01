@@ -1,0 +1,38 @@
+#! /bin/bash
+  
+# you will not have to change the SBATCH parameters
+#SBATCH -p q_student
+#SBATCH -N 1
+#SBATCH -c 32
+#SBATCH --cpu-freq=High
+#SBATCH --time=5:00
+
+# modify parameters accordingly
+NPROCS=(16)
+#NPROCS=(1)
+SIZE=(800)
+#SIZE=(200)
+PATCH=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30)
+NREP=3
+BINARY="python3 ./julia_par.py"
+
+
+OUTFILE="output_exp.dat"
+
+# remove old output data
+echo -n "" > "${OUTFILE}"
+
+for nprocs in "${NPROCS[@]}"
+do
+   for size in "${SIZE[@]}"
+   do
+      for patch in "${PATCH[@]}"
+      do
+         for r in `seq 1 ${NREP}`
+         do
+            echo "${BINARY} --nprocs $nprocs --size $size --patch $patch"
+            ${BINARY} --nprocs $nprocs --size $size --patch $patch >> "${OUTFILE}"
+         done
+      done
+   done
+done

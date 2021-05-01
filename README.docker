@@ -1,0 +1,8 @@
+
+Starting in Jupyter mode
+
+docker run -it --rm -p 8888:8888 -v "$PWD":/home/jovyan/work bopc2021
+
+Starting in Shell mode (good for Python scripts)
+
+docker run -it --rm -p 8888:8888 -v "$PWD":/home/jovyan/work bopc2021 bash
